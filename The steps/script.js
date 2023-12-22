@@ -5,26 +5,68 @@ const circles = document.querySelectorAll(".circle");
 
 let currentActive = 1;
 
-next.addEventListener("click", () => {
-	currentActive++;
+// next.addEventListener("click", () => {
+// 	currentActive++;
 
-	if (currentActive > circles.length) {
-		currentActive = circles.length;
-	}
-	update();
+// 	if (currentActive > circles.length) {
+// 		currentActive = circles.length;
+// 	}
+// 	update();
+// });
+
+// prev.addEventListener("click", () => {
+// 	currentActive--;
+
+// 	if (currentActive < 1) {
+// 		currentActive = 1;
+// 	}
+// 	update();
+// });
+
+// function update() {
+// 	circles.forEach((circle, idx) => {
+// 		if (idx < currentActive) {
+// 			circle.classList.add("active");
+// 		} else {
+// 			circle.classList.remove("active");
+// 		}
+// 	});
+// 	const actives = document.querySelectorAll(".active");
+// 	progress.style.width =
+// 		((actives.length - 1) / (circles.length - 1)) * 100 + "%";
+
+// 	if (currentActive == 1) {
+// 		prev.disabled = true;
+// 	} else if (currentActive == circles.length) {
+// 		next.disabled = true;
+// 	} else {
+// 		prev.disabled = false;
+// 		next.disabled = false;
+// 	}
+// }
+
+next.addEventListener("click", () => {
+	updateActive(1);
 });
 
 prev.addEventListener("click", () => {
-	currentActive--;
+	updateActive(-1);
+});
 
-	if (currentActive < 1) {
+function updateActive(direction) {
+	currentActive += direction;
+
+	if (currentActive > circles.length) {
+		currentActive = circles.length;
+	} else if (currentActive < 1) {
 		currentActive = 1;
 	}
 	update();
-});
+}
 
 function update() {
 	circles.forEach((circle, idx) => {
+		console.log(idx, "index", +" " + currentActive, "current active");
 		if (idx < currentActive) {
 			circle.classList.add("active");
 		} else {
@@ -35,12 +77,6 @@ function update() {
 	progress.style.width =
 		((actives.length - 1) / (circles.length - 1)) * 100 + "%";
 
-	if (currentActive == 1) {
-		prev.disabled = true;
-	} else if (currentActive == circles.length) {
-		next.disabled = true;
-	} else {
-		prev.disabled = false;
-		next.disabled = false;
-	}
+	prev.disabled = currentActive === 1;
+	next.disabled = currentActive === circles.length;
 }
